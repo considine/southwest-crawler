@@ -3,7 +3,7 @@ const sleep = t => new Promise(res => setTimeout(res, t));
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
@@ -40,6 +40,11 @@ const sleep = t => new Promise(res => setTimeout(res, t));
     e.blur()
   );
 
+  await page.evaluate(() => {
+    console.log('CLICKING');
+    document.querySelector("input[value='oneway']").click();
+  });
+
   await page.waitForSelector('#LandingPageAirSearchForm_submit-button');
 
   await page.click('#LandingPageAirSearchForm_submit-button');
@@ -51,10 +56,10 @@ const sleep = t => new Promise(res => setTimeout(res, t));
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
   await page.waitForSelector('.air-booking-select-detail');
-    // await Promise.all([
-    //   sleep(3000).then(() => page.screenshot({ path: 'out.png' })),
-    //   page.waitForSelector('.air-booking-select-detail')
-    // ]);
+  // await Promise.all([
+  //   sleep(3000).then(() => page.screenshot({ path: 'out.png' })),
+  //   page.waitForSelector('.air-booking-select-detail')
+  // ]);
 
   const dat = await page.evaluate(() => {
     return Array.from(
