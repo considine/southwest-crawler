@@ -3,8 +3,16 @@ const sleep = t => new Promise(res => setTimeout(res, t));
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false
-    // args: ['--start-fullscreen']
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-infobars',
+      '--window-position=0,0',
+      '--ignore-certifcate-errors',
+      '--ignore-certifcate-errors-spki-list',
+      '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"'
+    ]
   });
 
   const page = await browser.newPage();
@@ -24,7 +32,6 @@ const sleep = t => new Promise(res => setTimeout(res, t));
     delay: 100
   });
 
-
   await page.type('#LandingPageAirSearchForm_originationAirportCode', 'MDW', {
     delay: 100
   });
@@ -43,11 +50,11 @@ const sleep = t => new Promise(res => setTimeout(res, t));
 
   await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  await page.waitForSelector('.air-booking-select-detail')
-//   await Promise.all([
-//     sleep(3000).then(() => page.screenshot({ path: 'out.png' })),
-//     page.waitForSelector('.air-booking-select-detail')
-//   ]);
+  await page.waitForSelector('.air-booking-select-detail');
+    // await Promise.all([
+    //   sleep(3000).then(() => page.screenshot({ path: 'out.png' })),
+    //   page.waitForSelector('.air-booking-select-detail')
+    // ]);
 
   const dat = await page.evaluate(() => {
     return Array.from(
