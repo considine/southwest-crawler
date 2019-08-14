@@ -41,7 +41,6 @@ const sleep = t => new Promise(res => setTimeout(res, t));
   );
 
   await page.evaluate(() => {
-    console.log('CLICKING');
     document.querySelector("input[value='oneway']").click();
   });
 
