@@ -17,3 +17,13 @@ docker run -i --init --rm --cap-add=SYS_ADMIN \
    node -e "`cat index.js`"
 ```
 
+
+
+## Docs
+Currently this project just supports scraping flights from airport A => airport B like so:
+```bash
+node index.js AUS MDW
+```
+
+
+If you're interested in adding functionality don't hesitate to PR

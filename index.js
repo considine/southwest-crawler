@@ -1,6 +1,15 @@
 const puppeteer = require('puppeteer');
 const sleep = t => new Promise(res => setTimeout(res, t));
 
+
+if (process.argv.length < 4) {
+  console.error("Please supply two arguments: An airport code for departing airport, and an airport code for arriving airport" );
+
+  process.exit(1);
+}
+
+
+
 (async () => {
   const browser = await puppeteer.launch({
     headless: false,
@@ -28,11 +37,11 @@ const sleep = t => new Promise(res => setTimeout(res, t));
     '#LandingPageAirSearchForm_originationAirportCode'
   );
 
-  await page.type('#LandingPageAirSearchForm_destinationAirportCode', 'AUS', {
+  await page.type('#LandingPageAirSearchForm_destinationAirportCode', process.env.argv[2], {
     delay: 100
   });
 
-  await page.type('#LandingPageAirSearchForm_originationAirportCode', 'MDW', {
+  await page.type('#LandingPageAirSearchForm_originationAirportCode', process.env.argv[3], {
     delay: 100
   });
 
